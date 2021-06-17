@@ -39,7 +39,7 @@ private CustomerService customerService;
 private CustomerRepository customerRepository;
 
 @Test
-void saveOrder() throws JsonProcessingException {
+void saveOrderTest() throws JsonProcessingException {
 		
 	 List<Product> products = new ArrayList<Product>();
 	 products.add(new Product(100, "LG",5,50000));
