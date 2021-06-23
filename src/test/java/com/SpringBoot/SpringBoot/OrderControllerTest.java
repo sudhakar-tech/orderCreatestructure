@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.test.context.ContextConfiguration;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -22,6 +23,7 @@ import com.wellsfargo.dto.OrderRequest;
 import com.wellsfargo.model.Customer;
 import com.wellsfargo.model.Product;
 import com.wellsfargo.service.CustomerService;
+import com.wellsfargo.util.JwtUtil;
 
 @AutoConfigureMockMvc
 @ContextConfiguration(classes = { OrderController.class, CustomerService.class })
@@ -30,6 +32,12 @@ class OrderControllerTest {
 
 	@Autowired
 	private OrderController orderController;
+	
+    @Autowired
+    private JwtUtil jwtUtil;
+    
+	@Autowired 
+	private AuthenticationManager authenticationManager;
 
 	@MockBean
 	private CustomerService customerService;
@@ -43,7 +51,7 @@ class OrderControllerTest {
 		products.add(new Product(102, "LG 2", 9, 30000));
 
 		OrderRequest saveOrderRequest = new OrderRequest();
-		saveOrderRequest.setCustomer(new Customer(2, "sudhakar", "sudha@gmail.com", "male", products));
+		saveOrderRequest.setCustomer(new Customer(2, "sudhakar", "sudhakar@gmail.com", "male", products));
 
 		when(customerService.saveOrder(saveOrderRequest)).thenReturn(saveOrderRequest.getCustomer());
 
@@ -61,7 +69,7 @@ class OrderControllerTest {
 		products.add(new Product(102, "LG 2", 9, 30000));
 
 		List<Customer> customers = new ArrayList<Customer>();
-		customers.add(new Customer(2, "sudhakar", "sudha@gmail.com", "male", products));
+		customers.add(new Customer(2, "sudhakar", "sudhakar@gmail.com", "male", products));
 
 		when(customerService.getAllOrders()).thenReturn(customers);
 
